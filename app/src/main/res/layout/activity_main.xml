@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.eurigo.easyslider.EasySlider
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="20dp"
+        app:trackActiveColor="#1d7dff"
+        app:trackActiveGradientColor="#36D1DC,#5B86E5"
+        app:trackInactiveColor="#3e434c"
+        app:trackInactiveGradientColor="#FF6B35,#F7C59F"
+        app:trackRadius="10dp"
+        app:value="30"
+        app:minValue="1"
+        app:maxValue="100"
+        app:showThumb="true"
+        app:thumbRadius="4dp"
+        app:thumbHeight="10dp"
+        app:thumbWidth="2dp"
+        app:thumbPadding="6dp"
+        app:showProgressText="true"
+        app:progressTextGravity="center"
+        app:progressTextPadding="0dp"
+        app:progressTextFormat="%d%%"
+        app:progressTextColor="#925B5B"
+        app:trackIcon="@drawable/baseline_wb_sunny_24"
+        app:trackIconSize="24dp"
+        app:trackIconGravity="singleStart"
+        app:trackIconPadding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_change_value"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.6"
+        android:layout_marginTop="16dp"
+        android:text="Change Value"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
