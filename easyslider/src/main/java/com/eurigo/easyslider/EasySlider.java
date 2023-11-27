@@ -3,6 +3,7 @@ package com.eurigo.easyslider;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -13,6 +14,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
@@ -24,7 +26,10 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.text.DecimalFormat;
 
 /**
  * @author eurigo
@@ -33,10 +38,10 @@ import androidx.annotation.Nullable;
  */
 public class EasySlider extends View {
 
-    private static final String TAG = "EasySlider";
     private int minValue;
     private int maxValue;
     private int value;
+    private float percent;
     private int trackActiveColor;
     private int[] trackActiveGradientColor;
     private int trackInactiveColor;
@@ -49,9 +54,10 @@ public class EasySlider extends View {
     private float thumbWidth;
     private float thumbHeight;
     private boolean isShowProgressText;
+    private boolean isShowProgressPoint;
     private float progressTextSize;
     private int progressTextColor;
-    private String progressTextFormat;
+    private String progressTextSuffix;
     private float progressTextPadding;
     private int progressTextGravity;
     private Bitmap trackIcon;
@@ -70,8 +76,12 @@ public class EasySlider extends View {
     private Paint trackIconPaint;
     private OnValueChangeListener onValueChangeListener;
     private boolean actionUp;
-    private Point mDownPoint = new Point();
+    private final PointF mDownPoint = new PointF();
     private ValueAnimator valueAnimator;
+    private final DecimalFormat percentFormat = new DecimalFormat("0.00000");
+    private final DecimalFormat valueFormat = new DecimalFormat("0");
+    private final DecimalFormat progressPointFormat = new DecimalFormat("0.00%");
+    private final DecimalFormat progressFormat = new DecimalFormat("0%");
 
     public EasySlider(Context context) {
         this(context, null);
@@ -90,9 +100,10 @@ public class EasySlider extends View {
     private void obtainAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EasySlider);
         // 进度值
-        minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 1);
+        minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 0);
         maxValue = typedArray.getInt(R.styleable.EasySlider_es_maxValue, 100);
         value = typedArray.getInt(R.styleable.EasySlider_es_value, 0);
+        percent = calculatePercent(value);
         checkValue();
 
         // 进度条
@@ -114,11 +125,13 @@ public class EasySlider extends View {
 
         // 进度文本
         isShowProgressText = typedArray.getBoolean(R.styleable.EasySlider_es_showProgressText, true);
+        isShowProgressPoint = typedArray.getBoolean(R.styleable.EasySlider_es_showProgressPoint, false);
         progressTextSize = typedArray.getDimension(R.styleable.EasySlider_es_progressTextSize, sp2px(16));
         progressTextColor = typedArray.getColor(R.styleable.EasySlider_es_progressTextColor, COLOR_WHITE);
         progressTextGravity = typedArray.getInt(R.styleable.EasySlider_es_progressTextGravity, 0);
         progressTextPadding = typedArray.getDimension(R.styleable.EasySlider_es_progressTextPadding, 0);
-        progressTextFormat = typedArray.getString(R.styleable.EasySlider_es_progressTextFormat);
+        String suffix = typedArray.getString(R.styleable.EasySlider_es_progressTextSuffix);
+        progressTextSuffix = TextUtils.isEmpty(suffix) ? "" : suffix;
 
         // 进度图标
         trackIconSize = typedArray.getDimension(R.styleable.EasySlider_es_trackIconSize, dp2px(16));
@@ -155,7 +168,7 @@ public class EasySlider extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
         drawTrack(canvas);
         drawThumb(canvas);
@@ -163,10 +176,11 @@ public class EasySlider extends View {
         drawTrackIcon(canvas);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        float x = Math.min(event.getX(), getInactiveTrackRight());
+        float y = event.getY();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 actionUp = false;
@@ -175,16 +189,16 @@ public class EasySlider extends View {
             // 抬起
             case MotionEvent.ACTION_UP:
                 actionUp = true;
-                int targetValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue);
-                updateValue(targetValue, true, true);
+                float percent = x / (getInactiveTrackRight() - getInactiveTrackLeft());
+                updatePercent(percent, true, true);
                 break;
             // 移动
             case MotionEvent.ACTION_MOVE:
                 if (mDownPoint.equals(x, y)) {
                     return true;
                 }
-                int motionValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue);
-                updateValue(motionValue, true, false);
+                float motionPercent = x / (getInactiveTrackRight() - getInactiveTrackLeft());
+                updatePercent(motionPercent, true, false);
                 break;
             default:
                 break;
@@ -250,7 +264,7 @@ public class EasySlider extends View {
             return;
         }
         // 文本
-        String progressText = TextUtils.isEmpty(progressTextFormat) ? String.valueOf(value) : String.format(progressTextFormat, value);
+        String progressText = getPercent().concat(progressTextSuffix);
         switch (progressTextGravity) {
             // 居中对齐, 设置居中时，padding无效
             case 0:
@@ -271,8 +285,6 @@ public class EasySlider extends View {
 
     /**
      * 绘制进度图标
-     *
-     * @param canvas
      */
     private void drawTrackIcon(Canvas canvas) {
         // 如果没有图标需要绘制，直接返回
@@ -470,7 +482,7 @@ public class EasySlider extends View {
     }
 
     /**
-     * 获取最小值
+     * 获取最小进度值
      *
      * @return 最小值
      */
@@ -478,13 +490,44 @@ public class EasySlider extends View {
         return minValue;
     }
 
+    /**
+     * 获取最大进度值
+     *
+     * @return 最大值
+     */
     public int getMaxValue() {
         return maxValue;
     }
 
+    /**
+     * 获取当前进度值
+     *
+     * @return 当前进度值
+     */
     public int getValue() {
-        return value;
+        return Integer.parseInt(valueFormat.format(value));
     }
+
+    /**
+     * 获取进度百分比
+     *
+     * @return 进度百分比
+     */
+    public String getPercent() {
+        String formatPercent = isShowProgressPoint ? progressPointFormat.format(percent) : progressFormat.format(percent);
+        return formatPercent.replace("%", "");
+    }
+
+    private int calculateValue(float percent) {
+        String valueString = valueFormat.format(minValue + (maxValue - minValue) * percent);
+        return Integer.parseInt(valueString);
+    }
+
+    private float calculatePercent(int value) {
+        String percentString = percentFormat.format(1f * (value - minValue) / (maxValue - minValue));
+        return Float.parseFloat(percentString);
+    }
+
 
     /**
      * 获取激活轨道右侧位置, 如果计算出来的位置小于轨道圆角的直径, 则返回轨道圆角的直径
@@ -492,7 +535,7 @@ public class EasySlider extends View {
      * @return 激活轨道右侧位置
      */
     public float getActiveTrackRight() {
-        int right = (getWidth() - getPaddingRight()) * value / maxValue;
+        float right = percent * (getInactiveTrackRight() - getInactiveTrackLeft());
         return Math.max(right, trackRadius * 2);
     }
 
@@ -517,7 +560,9 @@ public class EasySlider extends View {
      * @param value 进度值
      */
     public void setValue(int value) {
-        updateValue(value, false, true);
+        float percent = calculatePercent(value);
+        actionUp = false;
+        updatePercent(percent, false, true);
     }
 
     /**
@@ -527,17 +572,19 @@ public class EasySlider extends View {
      * @param isAnim 是否需要动画
      */
     public void setValue(int value, boolean isAnim) {
-        updateValue(value, false, isAnim);
+        float percent = calculatePercent(value);
+        updatePercent(percent, false, isAnim);
     }
 
     /**
      * 设置进度值
      *
-     * @param targetValue 目标值
-     * @param isTouch     是否是手动拖动
-     * @param isAnim      是否需要动画
+     * @param targetPercent 进度值
+     * @param isTouch       是否是手动拖动
+     * @param isAnim        是否需要动画
      */
-    private void updateValue(int targetValue, boolean isTouch, boolean isAnim) {
+    private void updatePercent(float targetPercent, boolean isTouch, boolean isAnim) {
+        int targetValue = calculateValue(targetPercent);
         if (targetValue < minValue) {
             targetValue = minValue;
         }
@@ -548,10 +595,11 @@ public class EasySlider extends View {
             return;
         }
         if (isAnim) {
-            valueAnimator = ValueAnimator.ofInt(value, targetValue);
+            valueAnimator = ValueAnimator.ofFloat(percent, targetPercent);
             valueAnimator.setDuration(500);
             valueAnimator.addUpdateListener(animation -> {
-                value = (int) animation.getAnimatedValue();
+                percent = (float) animation.getAnimatedValue();
+                value = calculateValue(percent);
                 invalidate();
             });
             valueAnimator.start();
@@ -559,18 +607,19 @@ public class EasySlider extends View {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (onValueChangeListener != null) {
-                        onValueChangeListener.onValueChange(value, isTouch);
+                        onValueChangeListener.onValueChange(getValue(), getPercent(), isTouch);
                         if (actionUp) {
-                            onValueChangeListener.onStopTrackingTouch(value);
+                            onValueChangeListener.onStopTrackingTouch(getValue(), getPercent());
                         }
                     }
                 }
             });
         } else {
             value = targetValue;
+            percent = targetPercent;
             invalidate();
             if (onValueChangeListener != null) {
-                onValueChangeListener.onValueChange(value, isTouch);
+                onValueChangeListener.onValueChange(getValue(), getPercent(), isTouch);
             }
         }
     }

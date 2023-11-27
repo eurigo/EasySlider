@@ -10,12 +10,14 @@
         <attr name="es_value" format="integer" />
         <!--    是否显示进度文本，默认显示    -->
         <attr name="es_showProgressText" format="boolean" />
+        <!--    是否显示进度文本小数点，默认不显示    -->
+        <attr name="es_showProgressPoint" format="boolean" />
         <!--    进度文本颜色，默认白色    -->
         <attr name="es_progressTextColor" format="color" />
         <!--    进度文本大小，默认16sp    -->
         <attr name="es_progressTextSize" format="dimension" />
-        <!--    进度文本的格式, 默认整型     -->
-        <attr name="es_progressTextFormat" format="string" />
+        <!--    进度文本后缀    -->
+        <attr name="es_progressTextSuffix" format="string" />
         <!--    进度文本与轨道的间距, 默认0, TextGravity设置center时，此参数无效    -->
         <attr name="es_progressTextPadding" format="dimension" />
         <!--    进度文本位置, 默认轨道居中显示    -->
