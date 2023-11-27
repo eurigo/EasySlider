@@ -90,7 +90,7 @@ public class EasySlider extends View {
     private void obtainAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EasySlider);
         // 进度值
-        minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 1);
+        minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 0);
         maxValue = typedArray.getInt(R.styleable.EasySlider_es_maxValue, 100);
         value = typedArray.getInt(R.styleable.EasySlider_es_value, 0);
         checkValue();
