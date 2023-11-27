@@ -175,7 +175,7 @@ public class EasySlider extends View {
             // 抬起
             case MotionEvent.ACTION_UP:
                 actionUp = true;
-                int targetValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue);
+                int targetValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue + 0.5f);
                 updateValue(targetValue, true, true);
                 break;
             // 移动
@@ -183,7 +183,7 @@ public class EasySlider extends View {
                 if (mDownPoint.equals(x, y)) {
                     return true;
                 }
-                int motionValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue);
+                int motionValue = (int) (x / (getInactiveTrackRight() - getInactiveTrackLeft()) * maxValue + 0.5f);
                 updateValue(motionValue, true, false);
                 break;
             default:
