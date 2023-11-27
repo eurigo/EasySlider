@@ -90,42 +90,42 @@ public class EasySlider extends View {
     private void obtainAttrs(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.EasySlider);
         // 进度值
-        minValue = typedArray.getInt(R.styleable.EasySlider_minValue, 1);
-        maxValue = typedArray.getInt(R.styleable.EasySlider_maxValue, 100);
-        value = typedArray.getInt(R.styleable.EasySlider_value, 0);
+        minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 1);
+        maxValue = typedArray.getInt(R.styleable.EasySlider_es_maxValue, 100);
+        value = typedArray.getInt(R.styleable.EasySlider_es_value, 0);
         checkValue();
 
         // 进度条
-        trackActiveColor = typedArray.getColor(R.styleable.EasySlider_trackActiveColor, DEFAULT_TRACK_ACTIVE_COLOR);
-        String gradientColor = typedArray.getString(R.styleable.EasySlider_trackActiveGradientColor);
+        trackActiveColor = typedArray.getColor(R.styleable.EasySlider_es_trackActiveColor, DEFAULT_TRACK_ACTIVE_COLOR);
+        String gradientColor = typedArray.getString(R.styleable.EasySlider_es_trackActiveGradientColor);
         trackActiveGradientColor = parseGradientColor(gradientColor);
-        trackInactiveColor = typedArray.getColor(R.styleable.EasySlider_trackInactiveColor, DEFAULT_TRACK_INACTIVE_COLOR);
-        String inactiveGradientColor = typedArray.getString(R.styleable.EasySlider_trackInactiveGradientColor);
+        trackInactiveColor = typedArray.getColor(R.styleable.EasySlider_es_trackInactiveColor, DEFAULT_TRACK_INACTIVE_COLOR);
+        String inactiveGradientColor = typedArray.getString(R.styleable.EasySlider_es_trackInactiveGradientColor);
         trackInactiveGradientColor = parseGradientColor(inactiveGradientColor);
-        trackRadius = typedArray.getDimension(R.styleable.EasySlider_trackRadius, dp2px(12));
+        trackRadius = typedArray.getDimension(R.styleable.EasySlider_es_trackRadius, dp2px(12));
 
         // 标志
-        isShowThumb = typedArray.getBoolean(R.styleable.EasySlider_showThumb, true);
-        thumbColor = typedArray.getColor(R.styleable.EasySlider_thumbColor, COLOR_WHITE);
-        thumbRadius = typedArray.getDimension(R.styleable.EasySlider_thumbRadius, dp2px(12));
-        thumbPadding = typedArray.getDimension(R.styleable.EasySlider_thumbPadding, dp2px(4));
-        thumbWidth = typedArray.getDimension(R.styleable.EasySlider_thumbWidth, dp2px(24));
-        thumbHeight = typedArray.getDimension(R.styleable.EasySlider_thumbHeight, dp2px(24));
+        isShowThumb = typedArray.getBoolean(R.styleable.EasySlider_es_showThumb, true);
+        thumbColor = typedArray.getColor(R.styleable.EasySlider_es_thumbColor, COLOR_WHITE);
+        thumbRadius = typedArray.getDimension(R.styleable.EasySlider_es_thumbRadius, dp2px(12));
+        thumbPadding = typedArray.getDimension(R.styleable.EasySlider_es_thumbPadding, dp2px(4));
+        thumbWidth = typedArray.getDimension(R.styleable.EasySlider_es_thumbWidth, dp2px(24));
+        thumbHeight = typedArray.getDimension(R.styleable.EasySlider_es_thumbHeight, dp2px(24));
 
         // 进度文本
-        isShowProgressText = typedArray.getBoolean(R.styleable.EasySlider_showProgressText, true);
-        progressTextSize = typedArray.getDimension(R.styleable.EasySlider_progressTextSize, sp2px(16));
-        progressTextColor = typedArray.getColor(R.styleable.EasySlider_progressTextColor, COLOR_WHITE);
-        progressTextGravity = typedArray.getInt(R.styleable.EasySlider_progressTextGravity, 0);
-        progressTextPadding = typedArray.getDimension(R.styleable.EasySlider_progressTextPadding, 0);
-        progressTextFormat = typedArray.getString(R.styleable.EasySlider_progressTextFormat);
+        isShowProgressText = typedArray.getBoolean(R.styleable.EasySlider_es_showProgressText, true);
+        progressTextSize = typedArray.getDimension(R.styleable.EasySlider_es_progressTextSize, sp2px(16));
+        progressTextColor = typedArray.getColor(R.styleable.EasySlider_es_progressTextColor, COLOR_WHITE);
+        progressTextGravity = typedArray.getInt(R.styleable.EasySlider_es_progressTextGravity, 0);
+        progressTextPadding = typedArray.getDimension(R.styleable.EasySlider_es_progressTextPadding, 0);
+        progressTextFormat = typedArray.getString(R.styleable.EasySlider_es_progressTextFormat);
 
         // 进度图标
-        trackIconSize = typedArray.getDimension(R.styleable.EasySlider_trackIconSize, dp2px(16));
-        trackIconTint = typedArray.getColor(R.styleable.EasySlider_trackIconTint, -1);
-        trackIconPadding = typedArray.getDimension(R.styleable.EasySlider_trackIconPadding, dp2px(4));
-        trackIconGravity = typedArray.getInt(R.styleable.EasySlider_trackIconGravity, 0);
-        Drawable drawable = typedArray.getDrawable(R.styleable.EasySlider_trackIcon);
+        trackIconSize = typedArray.getDimension(R.styleable.EasySlider_es_trackIconSize, dp2px(16));
+        trackIconTint = typedArray.getColor(R.styleable.EasySlider_es_trackIconTint, -1);
+        trackIconPadding = typedArray.getDimension(R.styleable.EasySlider_es_trackIconPadding, dp2px(4));
+        trackIconGravity = typedArray.getInt(R.styleable.EasySlider_es_trackIconGravity, 0);
+        Drawable drawable = typedArray.getDrawable(R.styleable.EasySlider_es_trackIcon);
         trackIcon = drawable == null ? null : getBitmap(drawable);
         typedArray.recycle();
     }

@@ -3,75 +3,75 @@
 
     <declare-styleable name="EasySlider">
         <!--    最小值，默认0    -->
-        <attr name="minValue" format="integer"/>
+        <attr name="es_minValue" format="integer" />
         <!--    最大值，默认100    -->
-        <attr name="maxValue" format="integer"/>
+        <attr name="es_maxValue" format="integer" />
         <!--    当前值    -->
-        <attr name="value" format="integer"/>
+        <attr name="es_value" format="integer" />
         <!--    是否显示进度文本，默认显示    -->
-        <attr name="showProgressText" format="boolean"/>
+        <attr name="es_showProgressText" format="boolean" />
         <!--    进度文本颜色，默认白色    -->
-        <attr name="progressTextColor" format="color"/>
+        <attr name="es_progressTextColor" format="color" />
         <!--    进度文本大小，默认16sp    -->
-        <attr name="progressTextSize" format="dimension"/>
+        <attr name="es_progressTextSize" format="dimension" />
         <!--    进度文本的格式, 默认整型     -->
-        <attr name="progressTextFormat" format="string"/>
+        <attr name="es_progressTextFormat" format="string" />
         <!--    进度文本与轨道的间距, 默认0, TextGravity设置center时，此参数无效    -->
-        <attr name="progressTextPadding" format="dimension"/>
+        <attr name="es_progressTextPadding" format="dimension" />
         <!--    进度文本位置, 默认轨道居中显示    -->
-        <attr name="progressTextGravity" format="enum">
+        <attr name="es_progressTextGravity" format="enum">
             <!--      显示在轨道中, 并居中, 居中时, progressTextPadding参数无效       -->
-            <enum name="center" value="0"/>
+            <enum name="center" value="0" />
             <!--      显示在轨道中, 并靠左      -->
-            <enum name="start" value="1"/>
+            <enum name="start" value="1" />
             <!--      显示在轨道中, 并靠右      -->
-            <enum name="end" value="2"/>
+            <enum name="end" value="2" />
         </attr>
         <!--    轨道上的图标    -->
-        <attr name="trackIcon" format="reference"/>
+        <attr name="es_trackIcon" format="reference" />
         <!--    轨道上的图标大小，宽=高, 默认16dp    -->
-        <attr name="trackIconSize" format="dimension"/>
+        <attr name="es_trackIconSize" format="dimension" />
         <!--    轨道上的图标颜色，仅适用纯色图片    -->
-        <attr name="trackIconTint" format="color"/>
+        <attr name="es_trackIconTint" format="color" />
         <!--    轨道上的图标与文本的间距, 默认4dp    -->
-        <attr name="trackIconPadding" format="dimension"/>
+        <attr name="es_trackIconPadding" format="dimension" />
         <!--    轨道上图标位置，默认显示在文本之前, 如果跟随文本, 文本不显示时, 图标也会不显示     -->
-        <attr name="trackIconGravity" format="enum">
+        <attr name="es_trackIconGravity" format="enum">
             <!--      跟随在进度文本之前       -->
-            <enum name="textStart" value="0"/>
+            <enum name="textStart" value="0" />
             <!--      跟随在进度文本之后      -->
-            <enum name="textEnd" value="1"/>
+            <enum name="textEnd" value="1" />
             <!--      单独显示在轨道中，并靠左      -->
-            <enum name="singleStart" value="2"/>
+            <enum name="singleStart" value="2" />
             <!--      单独显示在轨道中，并靠右      -->
-            <enum name="singleEnd" value="3"/>
+            <enum name="singleEnd" value="3" />
             <!--      单独显示在轨道中，并居中      -->
-            <enum name="singleCenter" value="4"/>
+            <enum name="singleCenter" value="4" />
         </attr>
         <!--    轨道的激活颜色，默认#FFFFFF    -->
-        <attr name="trackActiveColor" format="color"/>
+        <attr name="es_trackActiveColor" format="color" />
         <!--    轨道的激活渐变色，设置渐变色会覆盖激活颜色，格式：#36D1DC,#5B86E5  -->
-        <attr name="trackActiveGradientColor" format="string"/>
+        <attr name="es_trackActiveGradientColor" format="string" />
         <!--    轨道的非激活颜色，默认#757575    -->
-        <attr name="trackInactiveColor" format="color"/>
+        <attr name="es_trackInactiveColor" format="color" />
         <!--    轨道的非激活渐变色，设置渐变色色会覆盖激活颜色，格式：#36D1DC,#5B86E5    -->
-        <attr name="trackInactiveGradientColor" format="string"/>
+        <attr name="es_trackInactiveGradientColor" format="string" />
         <!--    轨道的圆角, 默认12dp, 有圆角时, 激活轨道最小宽度时圆角的2倍    -->
-        <attr name="trackRadius" format="dimension"/>
+        <attr name="es_trackRadius" format="dimension" />
         <!--    激活轨道保留的最小宽度，默认0    -->
-        <attr name="keepMinWidth" format="dimension"/>
+        <attr name="es_keepMinWidth" format="dimension" />
         <!--    是否显示指示标志，默认显示    -->
-        <attr name="showThumb" format="boolean"/>
+        <attr name="es_showThumb" format="boolean" />
         <!--    标志圆角, 默认是标志高度的一半    -->
-        <attr name="thumbRadius" format="dimension"/>
+        <attr name="es_thumbRadius" format="dimension" />
         <!--    标志的Padding, 默认4dp    -->
-        <attr name="thumbPadding" format="dimension"/>
+        <attr name="es_thumbPadding" format="dimension" />
         <!--    标志颜色, 默认白色    -->
-        <attr name="thumbColor" format="color"/>
+        <attr name="es_thumbColor" format="color" />
         <!--    标志宽度, 默认24dp    -->
-        <attr name="thumbWidth" format="dimension"/>
+        <attr name="es_thumbWidth" format="dimension" />
         <!--    标志高度, 默认24dp    -->
-        <attr name="thumbHeight" format="dimension"/>
+        <attr name="es_thumbHeight" format="dimension" />
 
     </declare-styleable>
 
