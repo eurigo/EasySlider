@@ -32,7 +32,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.eurigo:EasySlider:1.0.2'
+    implementation 'com.github.eurigo:EasySlider:1.1.0'
 }
 ```
 
@@ -46,8 +46,10 @@ dependencies {
 |es_maxValue|最大值，默认100|
 |es_value|当前值|
 |es_showProgressText|是否显示进度文本，默认显示|
+|es_showProgressPoint|是否显示进度文本小数点，默认不显示|
 |es_progressTextColor|进度文本颜色，默认白色|
 |es_progressTextSize|进度文本大小，默认16sp|
+|es_progressTextSuffix|进度文本后缀|
 |es_progressTextFormat|进度文本的格式, 默认整型|
 |es_progressTextPadding|进度文本与轨道的间距, 默认0, TextGravity设置center时，此参数无效|
 |es_progressTextGravity|进度文本位置, 默认轨道居中显示|
