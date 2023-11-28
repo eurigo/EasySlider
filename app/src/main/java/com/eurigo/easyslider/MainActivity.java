@@ -1,10 +1,9 @@
 package com.eurigo.easyslider;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.eurigo.easyslider.databinding.ActivityMainBinding;
 
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(int value, String percent) {
-                Log.e("xxx", "onStopTrackingTouch: " + value + "      percent: " + percent);
+                Log.e("xxx", "onValueChangeStop: " + value + "      percent: " + percent);
             }
         });
     }

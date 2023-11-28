@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -75,7 +74,7 @@ public class EasySlider extends View {
     private Paint progressTextPaint;
     private Paint trackIconPaint;
     private OnValueChangeListener onValueChangeListener;
-    private boolean actionUp;
+    private boolean actionDown;
     private final PointF mDownPoint = new PointF();
     private ValueAnimator valueAnimator;
     private final DecimalFormat percentFormat = new DecimalFormat("0.00000");
@@ -183,12 +182,11 @@ public class EasySlider extends View {
         float y = event.getY();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                actionUp = false;
+                actionDown = true;
                 mDownPoint.set(x, y);
                 break;
             // 抬起
             case MotionEvent.ACTION_UP:
-                actionUp = true;
                 float percent = x / (getInactiveTrackRight() - getInactiveTrackLeft());
                 updatePercent(percent, true, true);
                 break;
@@ -561,7 +559,6 @@ public class EasySlider extends View {
      */
     public void setValue(int value) {
         float percent = calculatePercent(value);
-        actionUp = false;
         updatePercent(percent, false, true);
     }
 
@@ -591,7 +588,7 @@ public class EasySlider extends View {
         if (targetValue > maxValue) {
             targetValue = maxValue;
         }
-        if (value == targetValue) {
+        if (value == targetValue && !isAnim) {
             return;
         }
         if (isAnim) {
@@ -608,8 +605,9 @@ public class EasySlider extends View {
                 public void onAnimationEnd(Animator animation) {
                     if (onValueChangeListener != null) {
                         onValueChangeListener.onValueChange(getValue(), getPercent(), isTouch);
-                        if (actionUp) {
+                        if (actionDown) {
                             onValueChangeListener.onStopTrackingTouch(getValue(), getPercent());
+                            actionDown = false;
                         }
                     }
                 }
