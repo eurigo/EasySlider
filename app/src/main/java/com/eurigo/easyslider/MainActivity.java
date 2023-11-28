@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.eurigo.easyslider.databinding.ActivityMainBinding;
 
@@ -22,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
                 .setValue(Random.Default.nextInt(binding.progress.getMinValue(), binding.progress.getMaxValue())));
         binding.progress.setOnValueChangeListener(new OnValueChangeListener() {
             @Override
-            public void onValueChange(int value, boolean isTouch) {
-                Log.e(getClass().getName(), "onValueChange: " + value + " isTouch: " + isTouch);
+            public void onValueChange(int value, String percent, boolean isTouch) {
+                Log.e("xxx", "onValueChange: " + value + "      percent: " + percent);
             }
 
             @Override
-            public void onStopTrackingTouch(int value) {
-
+            public void onStopTrackingTouch(int value, String percent) {
+                Log.e("xxx", "onStopTrackingTouch: " + value + "      percent: " + percent);
             }
         });
     }
