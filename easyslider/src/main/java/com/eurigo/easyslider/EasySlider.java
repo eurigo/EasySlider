@@ -64,6 +64,7 @@ public class EasySlider extends View {
     private int trackIconTint;
     private float trackIconPadding;
     private int trackIconGravity;
+    private float keepMinWidth;
     private static final int DEFAULT_TRACK_ACTIVE_COLOR = 0xff1d7dff;
     private static final int DEFAULT_TRACK_INACTIVE_COLOR = 0xff3e434c;
     private static final int COLOR_WHITE = 0xffffffff;
@@ -101,7 +102,7 @@ public class EasySlider extends View {
         // 进度值
         minValue = typedArray.getInt(R.styleable.EasySlider_es_minValue, 0);
         maxValue = typedArray.getInt(R.styleable.EasySlider_es_maxValue, 100);
-        value = typedArray.getInt(R.styleable.EasySlider_es_value, 0);
+        value = typedArray.getInt(R.styleable.EasySlider_es_value, minValue);
         percent = calculatePercent(value);
         checkValue();
 
@@ -113,6 +114,7 @@ public class EasySlider extends View {
         String inactiveGradientColor = typedArray.getString(R.styleable.EasySlider_es_trackInactiveGradientColor);
         trackInactiveGradientColor = parseGradientColor(inactiveGradientColor);
         trackRadius = typedArray.getDimension(R.styleable.EasySlider_es_trackRadius, dp2px(12));
+        keepMinWidth = typedArray.getDimension(R.styleable.EasySlider_es_keepMinWidth, 0);
 
         // 标志
         isShowThumb = typedArray.getBoolean(R.styleable.EasySlider_es_showThumb, true);
@@ -534,7 +536,7 @@ public class EasySlider extends View {
      */
     public float getActiveTrackRight() {
         float right = percent * (getInactiveTrackRight() - getInactiveTrackLeft());
-        return Math.max(right, trackRadius * 2);
+        return Math.max(Math.max(right, trackRadius * 2), keepMinWidth);
     }
 
     /**
