@@ -3,7 +3,6 @@ package com.eurigo.easyslider;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -177,23 +176,31 @@ public class EasySlider extends View {
         drawTrackIcon(canvas);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean performClick() {
+        return super.performClick();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = Math.min(event.getX(), getInactiveTrackRight());
         float y = event.getY();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                getParent().requestDisallowInterceptTouchEvent(true);
+                performClick();
                 actionDown = true;
                 mDownPoint.set(x, y);
                 break;
             // 抬起
             case MotionEvent.ACTION_UP:
+                getParent().requestDisallowInterceptTouchEvent(true);
                 float percent = x / (getInactiveTrackRight() - getInactiveTrackLeft());
                 updatePercent(percent, true, true);
                 break;
             // 移动
             case MotionEvent.ACTION_MOVE:
+                getParent().requestDisallowInterceptTouchEvent(true);
                 if (mDownPoint.equals(x, y)) {
                     return true;
                 }
