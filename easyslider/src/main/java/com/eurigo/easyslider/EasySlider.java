@@ -181,9 +181,16 @@ public class EasySlider extends View {
         return super.performClick();
     }
 
+    private float translateX(float x) {
+        if (x < getInactiveTrackLeft()) {
+            return getInactiveTrackLeft();
+        }
+        return Math.min(x, getInactiveTrackRight());
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = Math.min(event.getX(), getInactiveTrackRight());
+        float x = translateX(event.getX());
         float y = event.getY();
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
