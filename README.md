@@ -32,7 +32,7 @@ dependencyResolutionManagement {
 
 ```groovy
 dependencies {
-    implementation 'com.github.eurigo:EasySlider:1.0.3'
+    implementation 'com.github.eurigo:EasySlider:1.0.4'
 }
 ```
 
